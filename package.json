@@ -19,5 +19,9 @@
   "homepage": "https://github.com/kleisinger/transit-app-final-assignment#readme",
   "devDependencies": {
     "gulp": "^4.0.2"
+  },
+  "dependencies": {
+    "gulp-clean-css": "^4.3.0",
+    "gulp-terser": "^2.1.0"
   }
 }
