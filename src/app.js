@@ -358,6 +358,36 @@ const buildTripList = (data) => {
   let type = data.plans[0].segments[n].type;
   let totalTime = data.plans[0].segments[n].times.durations.total;
  
+  if (segment.type === 'walk') {
+    
+    if(!segment.to.stop) {
+      myTrip.insertAdjacentHTML(
+        `beforeend`,
+        `
+        <li>
+          <i class="fas fa-walking" aria-hidden="true"></i>${type} for ${totalTime} minutes
+          to your destination.
+        </li>
+        `
+      )
+      return;
+    }
+    if(segment.to.stop) {
+      let stopNumber = data.plans[0].segments[n].to.stop.key;
+      let to = data.plans[0].segments[n].to.stop.name;
+      myTrip.insertAdjacentHTML(
+        `beforeend`,
+        `
+        <li>
+          <i class="fas fa-walking" aria-hidden="true"></i>${type} for ${totalTime} minutes
+          to #${stopNumber} - ${to}
+        </li>
+        `
+      )
+      return;
+    }
+  }
+
   if (segment.type === 'ride') {
     let route = data.plans[0].segments[n].route.name;
     myTrip.insertAdjacentHTML(
@@ -369,6 +399,23 @@ const buildTripList = (data) => {
       `
     )
   }
+
+  if (segment.type === 'transfer') {
+    let oldStopNumber = data.plans[0].segments[n].from.stop.key;
+    let oldBus = data.plans[0].segments[n].from.stop.name;
+    let newStopNumber = data.plans[0].segments[n].to.stop.key;
+    let newBus = data.plans[0].segments[n].to.stop.name;
+
+    myTrip.insertAdjacentHTML(
+      `beforeend`,
+      `
+      <li>
+      <i class="fas fa-ticket-alt" aria-hidden="true"></i>${type} from stop
+      #${oldStopNumber} - ${oldBus} to stop #${newStopNumber} - ${newBus}
+    </li>
+      `
+    );
+  };
 };
 
 
