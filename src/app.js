@@ -10,6 +10,7 @@ function populateStartList() {
   .then((response) => response.json())
   .then((data) => {
     console.log(data)
+    clearStart(data);
     const listItem = data.features;
     listItem.forEach(location => {
       buildStartList(data);
@@ -129,12 +130,19 @@ const buildStartList = (data) => {
   ////////
 };
 
+const clearStart = (data) => {
+  if (x <= 10) {
+    x = 0;
+    originsListEl.innerHTML = '';
+  };
+};
+
+
 
 
 function isPlace (place) {
   return place.id.includes('place');
 };
-
 
 originsForm.addEventListener('submit', e => {
   e.preventDefault();
