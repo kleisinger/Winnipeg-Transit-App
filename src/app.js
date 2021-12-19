@@ -4,6 +4,7 @@ const destinationsListEl = document.querySelector('.destinations');
 const destinationsForm = document.querySelector('.destination-form');
 const button = document.querySelector('.plan-trip');
 const myTrip = document.querySelector('.my-trip');
+const altTrip = document.querySelector('.alt-trip');
 let x = 0;
 let n = 0;
 let startLat = '';
@@ -424,6 +425,92 @@ const clearTrip = (data) => {
   myTrip.innerHTML = '';
 };
 
+// alt trip planner functions
+function populateAltTrip(data) {
+  fetch(`https://api.winnipegtransit.com/v3/trip-planner.json?api-key=gvGXRfVSUPPqR5oWAsWr&origin=geo/${startLon},${startLat}&destination=geo/${destinationLon},${destinationLat}`)
+  .then((response) => response.json())
+  .then((data) => {
+    const tripPlans = data.plans[1].segments
+    clearAltTrip()
+    tripPlans.forEach(segment => {
+      buildAltTripList(data);
+      n++;
+    });
+  })
+};
+
+const buildAltTripList = (data) => {
+  let segment = data.plans[1].segments[n];
+  let type = data.plans[1].segments[n].type;
+  let totalTime = data.plans[1].segments[n].times.durations.total;
+ 
+
+
+  if (segment.type === 'walk') {
+    
+    if(!segment.to.stop) {
+      altTrip.insertAdjacentHTML(
+        `beforeend`,
+        `
+        <li>
+          <i class="fas fa-walking" aria-hidden="true"></i>${type} for ${totalTime} minutes
+          to your destination.
+        </li>
+        `
+      );
+      return;
+    };
+    if(segment.to.stop) {
+      let stopNumber = data.plans[1].segments[n].to.stop.key;
+      let to = data.plans[0].segments[n].to.stop.name;
+      altTrip.insertAdjacentHTML(
+        `beforeend`,
+        `
+        <li>
+          <i class="fas fa-walking" aria-hidden="true"></i>${type} for ${totalTime} minutes
+          to #${stopNumber} - ${to}
+        </li>
+        `
+      );
+      return;
+    };
+  };
+
+  if (segment.type === 'ride') {
+    let route = data.plans[1].segments[n].route.name;
+    altTrip.insertAdjacentHTML(
+      `beforeend`,
+      `
+      <li>
+        <i class="fas fa-bus" aria-hidden="true"></i>${type} the ${route} for ${totalTime} minutes.
+      </li>
+      `
+    );
+  };
+
+  if (segment.type === 'transfer') {
+    let oldStopNumber = data.plans[1].segments[n].from.stop.key;
+    let oldBus = data.plans[1].segments[n].from.stop.name;
+    let newStopNumber = data.plans[1].segments[n].to.stop.key;
+    let newBus = data.plans[1].segments[n].to.stop.name;
+
+    altTrip.insertAdjacentHTML(
+      `beforeend`,
+      `
+      <li>
+      <i class="fas fa-ticket-alt" aria-hidden="true"></i>${type} from stop
+      #${oldStopNumber} - ${oldBus} to stop #${newStopNumber} - ${newBus}
+    </li>
+      `
+    );
+  };
+};
+
+const clearAltTrip = (data) => {
+  n = 0;
+  altTrip.innerHTML = '';
+};
+
 
 function isPlace (place) {
   return place.id.includes('place');
@@ -443,4 +530,5 @@ destinationsForm.addEventListener('submit', e => {
 button.addEventListener('click', e => {
   e.preventDefault();
   populateTrip()
+  populateAltTrip()
 });
