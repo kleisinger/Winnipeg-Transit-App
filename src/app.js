@@ -347,3 +347,8 @@ originsForm.addEventListener('submit', e => {
   e.preventDefault();
   populateStartList();
 });
+
+destinationsForm.addEventListener('submit', e => {
+  e.preventDefault();
+  populateDestinationList();
+});
