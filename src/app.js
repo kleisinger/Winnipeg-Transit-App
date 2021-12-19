@@ -19,11 +19,15 @@ function populateStartList() {
 };
 
 const buildStartList = (data) => { 
+  let features = data.features[x];
   let locationID = data.features[x].id;
   let locationLat = data.features[x].center[0];
   let locationLon = data.features[x].center[1];
   let locationName = data.features[x].text;
+  let locationArr = data.features[x].context;
+  let place = (locationArr.find(isPlace)).text;
   let poiAddress = data.features[x].properties.address;
+  const listItems = document.querySelectorAll('.origins li');
 
   if (locationID.includes('poi')) {
     if(!poiAddress) {
@@ -32,7 +36,7 @@ const buildStartList = (data) => {
         `
         <li data-long="${locationLon}" data-lat="${locationLat}" class="">
           <div class="name">${locationName}</div>
-          <div>xxx</div>
+          <div>${place}</div>
         </li>
         `
       );
@@ -49,7 +53,87 @@ const buildStartList = (data) => {
       );
     };
   };
-}
+
+  if (locationID.includes('address')) {
+    let locationAddress = data.features[x].address;
+    if(!features.address) {
+      originsListEl.insertAdjacentHTML(
+        'beforeend',
+        `
+        <li data-long="${locationLon}" data-lat="${locationLat}" class="">
+          <div class="name">${locationName}</div>
+          <div>${place}</div>
+        </li>
+        `
+      );
+    } if (features.address) {
+        originsListEl.insertAdjacentHTML(
+        'beforeend',
+        `
+        <li data-long="${locationLon}" data-lat="${locationLat}" class="">
+          <div class="name">${locationAddress} ${locationName}</div>
+          <div>${place}</div>
+        </li>
+        `
+      );
+    };
+  };
+
+  if (locationID.includes('neighborhood')) {
+    originsListEl.insertAdjacentHTML(
+      'beforeend',
+      `
+      <li data-long="${locationLon}" data-lat="${locationLat}" class="">
+        <div class="name">${locationName}</div>
+        <div>${place}</div>
+      </li>
+      `
+    );
+  };
+
+  if (locationID.includes('locality')) {
+    originsListEl.insertAdjacentHTML(
+      'beforeend',
+      `
+      <li data-long="${locationLon}" data-lat="${locationLat}" class="">
+        <div class="name">${locationName}</div>
+        <div>${place}</div>
+      </li>
+      `
+    );
+  };
+
+  if (locationID.includes('place')) {
+    originsListEl.insertAdjacentHTML(
+      'beforeend',
+      `
+      <li data-long="${locationLon}" data-lat="${locationLat}" class="">
+        <div class="name">${locationName}</div>
+        <div>${place}</div>
+      </li>
+      `
+    );
+  };
+
+  if (locationID.includes('postcode')) {
+    originsListEl.insertAdjacentHTML(
+      'beforeend',
+      `
+      <li data-long="${locationLon}" data-lat="${locationLat}" class="">
+        <div class="name">${locationName}</div>
+        <div>${place}</div>
+      </li>
+      `
+    );
+  };
+  ////////
+};
+
+
+
+function isPlace (place) {
+  return place.id.includes('place');
+};
 
 
 originsForm.addEventListener('submit', e => {
