@@ -1,5 +1,6 @@
 const originsListEl = document.querySelector('.origins');
 const originsForm = document.querySelector('.origin-form');
+let x = 0;
 
 
 function populateStartList() {
@@ -9,8 +10,46 @@ function populateStartList() {
   .then((response) => response.json())
   .then((data) => {
     console.log(data)
+    const listItem = data.features;
+    listItem.forEach(location => {
+      buildStartList(data);
+      x++;
+    });
   });
 };
+
+const buildStartList = (data) => { 
+  let locationID = data.features[x].id;
+  let locationLat = data.features[x].center[0];
+  let locationLon = data.features[x].center[1];
+  let locationName = data.features[x].text;
+  let poiAddress = data.features[x].properties.address;
+
+  if (locationID.includes('poi')) {
+    if(!poiAddress) {
+      originsListEl.insertAdjacentHTML(
+        'beforeend',
+        `
+        <li data-long="${locationLon}" data-lat="${locationLat}" class="">
+          <div class="name">${locationName}</div>
+          <div>xxx</div>
+        </li>
+        `
+      );
+    };
+    if (poiAddress) {
+      originsListEl.insertAdjacentHTML(
+        'beforeend',
+        `
+        <li data-long="${locationLon}" data-lat="${locationLat}" class="">
+          <div class="name">${locationName}</div>
+          <div>${poiAddress}</div>
+        </li>
+        `
+      );
+    };
+  };
+}
 
 
 originsForm.addEventListener('submit', e => {
