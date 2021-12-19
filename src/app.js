@@ -3,7 +3,9 @@ const originsForm = document.querySelector('.origin-form');
 const destinationsListEl = document.querySelector('.destinations');
 const destinationsForm = document.querySelector('.destination-form');
 const button = document.querySelector('.plan-trip');
+const myTrip = document.querySelector('.my-trip');
 let x = 0;
+let n = 0;
 let startLat = '';
 let startLon = '';
 let destinationLat = '';
@@ -343,8 +345,30 @@ function populateTrip(data) {
   fetch(`https://api.winnipegtransit.com/v3/trip-planner.json?api-key=gvGXRfVSUPPqR5oWAsWr&origin=geo/${startLon},${startLat}&destination=geo/${destinationLon},${destinationLat}`)
   .then((response) => response.json())
   .then((data) => {
-   console.log(data)
+    const tripPlans = data.plans[0].segments;
+    tripPlans.forEach(segment => {
+      buildTripList(data);
+      n++;
+    });
   });
+};
+
+const buildTripList = (data) => {
+  let segment = data.plans[0].segments[n];
+  let type = data.plans[0].segments[n].type;
+  let totalTime = data.plans[0].segments[n].times.durations.total;
+ 
+  if (segment.type === 'ride') {
+    let route = data.plans[0].segments[n].route.name;
+    myTrip.insertAdjacentHTML(
+      `beforeend`,
+      `
+      <li>
+        <i class="fas fa-bus" aria-hidden="true"></i>${type} the ${route} for ${totalTime} minutes.
+      </li>
+      `
+    )
+  }
 };
 
 
