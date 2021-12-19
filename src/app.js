@@ -139,8 +139,18 @@ const clearStart = (data) => {
   };
 };
 
+function clearSelectedStart() {
+  const listItem = document.querySelectorAll('.origins li');
+  for (let i = 0; i < listItem.length; i++) {
+    listItem[i].classList.remove('selected');
+  };
+};
+
 function toggleStart(e) {
-  console.log(e.currentTarget)
+  if (!e.currentTarget.classList.contains('selected')) {
+    clearSelectedStart();
+    e.currentTarget.classList.toggle('selected');
+  };
 };
 
 
