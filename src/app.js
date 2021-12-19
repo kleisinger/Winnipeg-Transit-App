@@ -357,7 +357,7 @@ function populateTrip(data) {
 
 const buildTripList = (data) => {
   let segment = data.plans[0].segments[n];
-  let type = data.plans[0].segments[n].type;
+  let type = toCapital(data.plans[0].segments[n].type);
   let totalTime = data.plans[0].segments[n].times.durations.total;
  
   if (segment.type === 'walk') {
@@ -425,6 +425,7 @@ const clearTrip = (data) => {
   myTrip.innerHTML = '';
 };
 
+
 // alt trip planner functions
 function populateAltTrip(data) {
   fetch(`https://api.winnipegtransit.com/v3/trip-planner.json?api-key=gvGXRfVSUPPqR5oWAsWr&origin=geo/${startLon},${startLat}&destination=geo/${destinationLon},${destinationLat}`)
@@ -441,7 +442,7 @@ function populateAltTrip(data) {
 
 const buildAltTripList = (data) => {
   let segment = data.plans[1].segments[n];
-  let type = data.plans[1].segments[n].type;
+  let type = toCapital(data.plans[0].segments[n].type);
   let totalTime = data.plans[1].segments[n].times.durations.total;
  
 
@@ -512,8 +513,13 @@ const clearAltTrip = (data) => {
 };
 
 
+
 function isPlace (place) {
   return place.id.includes('place');
+};
+
+function toCapital (s) {
+  return s.charAt(0).toUpperCase() + s.slice(1);
 };
 
 // event listeners
