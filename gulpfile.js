@@ -7,9 +7,9 @@ const defaultTask = () => {
 };
 
 const scripts = () => {
-  return src('src/scripts/*.js')
+  return src('src/*.js')
   .pipe(terser())
-  .pipe(dest('dist/scripts'));
+  .pipe(dest('dist'));
 };
 
 const styles = () => {

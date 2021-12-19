@@ -550,5 +550,3 @@ button.addEventListener('click', e => {
   populateAltTrip();
 });
 
-
-
