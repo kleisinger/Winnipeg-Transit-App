@@ -452,6 +452,18 @@ function populateAltTrip(data) {
       n++;
     });
   })
+  .catch((err) => {
+    clearAltTrip()
+    altTrip.insertAdjacentHTML(
+      'beforeend',
+      `
+      <li>
+          <p> There are no alternative routes available. </p>
+      </li>
+     
+      `
+    );
+  });
 };
 
 const buildAltTripList = (data) => {
