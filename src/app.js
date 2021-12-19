@@ -337,6 +337,15 @@ function toggleDestination(e) {
   destinationLat = e.currentTarget.dataset.lat;
 };
 
+// trip planner functions
+
+function populateTrip(data) {
+  fetch(`https://api.winnipegtransit.com/v3/trip-planner.json?api-key=gvGXRfVSUPPqR5oWAsWr&origin=geo/${startLon},${startLat}&destination=geo/${destinationLon},${destinationLat}`)
+  .then((response) => response.json())
+  .then((data) => {
+   console.log(data)
+  });
+};
 
 
 function isPlace (place) {
@@ -356,5 +365,5 @@ destinationsForm.addEventListener('submit', e => {
 
 button.addEventListener('click', e => {
   e.preventDefault();
-  console.log(e.currentTarget)
+  populateTrip()
 });
