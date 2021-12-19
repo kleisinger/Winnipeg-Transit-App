@@ -127,7 +127,9 @@ const buildStartList = (data) => {
       `
     );
   };
-  ////////
+  for (let i = 0; i < listItems.length; i++) {
+    listItems[i].addEventListener('click', toggleStart);
+  };
 };
 
 const clearStart = (data) => {
@@ -137,6 +139,9 @@ const clearStart = (data) => {
   };
 };
 
+function toggleStart(e) {
+  console.log(e.currentTarget)
+};
 
 
 
