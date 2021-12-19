@@ -351,7 +351,21 @@ function populateTrip(data) {
     tripPlans.forEach(segment => {
       buildTripList(data);
       n++;
-    });
+    })
+  })
+  .catch((err) => {
+    clearTrip();
+    myTrip.insertAdjacentHTML(
+      'beforeend',
+      `
+      <li>
+          <p> Please ensure you have selected a unique starting location and destination.</p>
+      </li>
+      <li>
+        <p> If the start and end locations are different, there are no available buses at this time. </p>
+      </li>
+      `
+    );
   });
 };
 
