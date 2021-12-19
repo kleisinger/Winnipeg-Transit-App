@@ -346,6 +346,7 @@ function populateTrip(data) {
   .then((response) => response.json())
   .then((data) => {
     const tripPlans = data.plans[0].segments;
+    clearTrip()
     tripPlans.forEach(segment => {
       buildTripList(data);
       n++;
@@ -416,6 +417,11 @@ const buildTripList = (data) => {
       `
     );
   };
+};
+
+const clearTrip = (data) => {
+  n = 0;
+  myTrip.innerHTML = '';
 };
 
 
