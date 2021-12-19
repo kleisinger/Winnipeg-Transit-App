@@ -1,6 +1,8 @@
 const originsListEl = document.querySelector('.origins');
 const originsForm = document.querySelector('.origin-form');
 let x = 0;
+let startLat = '';
+let startLon = '';
 
 
 function populateStartList() {
@@ -144,6 +146,8 @@ function clearSelectedStart() {
   for (let i = 0; i < listItem.length; i++) {
     listItem[i].classList.remove('selected');
   };
+  startLat = '';
+  startLon = '';
 };
 
 function toggleStart(e) {
@@ -151,6 +155,8 @@ function toggleStart(e) {
     clearSelectedStart();
     e.currentTarget.classList.toggle('selected');
   };
+  startLon = e.currentTarget.dataset.long;
+  startLat = e.currentTarget.dataset.lat;
 };
 
 
