@@ -2,6 +2,7 @@ const originsListEl = document.querySelector('.origins');
 const originsForm = document.querySelector('.origin-form');
 const destinationsListEl = document.querySelector('.destinations');
 const destinationsForm = document.querySelector('.destination-form');
+const button = document.querySelector('.plan-trip');
 let x = 0;
 let startLat = '';
 let startLon = '';
@@ -338,11 +339,11 @@ function toggleDestination(e) {
 
 
 
-
 function isPlace (place) {
   return place.id.includes('place');
 };
 
+// event listeners
 originsForm.addEventListener('submit', e => {
   e.preventDefault();
   populateStartList();
@@ -351,4 +352,9 @@ originsForm.addEventListener('submit', e => {
 destinationsForm.addEventListener('submit', e => {
   e.preventDefault();
   populateDestinationList();
+});
+
+button.addEventListener('click', e => {
+  e.preventDefault();
+  console.log(e.currentTarget)
 });
