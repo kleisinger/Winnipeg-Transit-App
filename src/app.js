@@ -3,32 +3,17 @@ const originsForm = document.querySelector('.origin-form');
 const destinationsListEl = document.querySelector('.destinations');
 const destinationsForm = document.querySelector('.destination-form');
 const button = document.querySelector('.plan-trip');
-const myTrip = document.querySelector('.my-trip');
-const altTrip = document.querySelector('.alt-trip');
 let x = 0;
 let n = 0;
+const myTrip = document.querySelector('.my-trip');
+const altTrip = document.querySelector('.alt-trip');
 let startLat = '';
 let startLon = '';
 let destinationLat = '';
 let destinationLon = '';
 
-// start location functions
-function populateStartList() {
-  const originsTextEl = document.getElementById('origin-text');
-  const originsText = originsTextEl.value;
-  fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${originsText}.json?limit=10&bbox=-97.325875,49.766204,-96.953987,49.99275&access_token=pk.eyJ1Ijoia2xlaXNpbmdlciIsImEiOiJja3hheHlrdWgzdGcxMndvNm41cmdmd3hxIn0.EyjjyGVzqWT68a5pw-IhoQ`)
-  .then((response) => response.json())
-  .then((data) => {
-    console.log(data)
-    clearStart(data);
-    const listItem = data.features;
-    listItem.forEach(location => {
-      buildStartList(data);
-      x++;
-    });
-  });
-};
 
+// start locations
 function populateStartList() {
   const originsTextEl = document.getElementById('origin-text');
   const originsText = originsTextEl.value;
@@ -184,7 +169,8 @@ function toggleStart(e) {
   startLat = e.currentTarget.dataset.lat;
 };
 
-// destination functions
+
+// destination locations
 function populateDestinationList() {
   const destinationsTextEl = document.getElementById('destination-text');
   const destinationsText = destinationsTextEl.value;
@@ -340,8 +326,8 @@ function toggleDestination(e) {
   destinationLat = e.currentTarget.dataset.lat;
 };
 
-// trip planner functions
 
+// trip
 function populateTrip(data) {
   fetch(`https://api.winnipegtransit.com/v3/trip-planner.json?api-key=gvGXRfVSUPPqR5oWAsWr&origin=geo/${startLon},${startLat}&destination=geo/${destinationLon},${destinationLat}`)
   .then((response) => response.json())
@@ -439,8 +425,8 @@ const clearTrip = (data) => {
   myTrip.innerHTML = '';
 };
 
+// alt trip
 
-// alt trip planner functions
 function populateAltTrip(data) {
   fetch(`https://api.winnipegtransit.com/v3/trip-planner.json?api-key=gvGXRfVSUPPqR5oWAsWr&origin=geo/${startLon},${startLat}&destination=geo/${destinationLon},${destinationLat}`)
   .then((response) => response.json())
@@ -468,7 +454,7 @@ function populateAltTrip(data) {
 
 const buildAltTripList = (data) => {
   let segment = data.plans[1].segments[n];
-  let type = toCapital(data.plans[0].segments[n].type);
+  let type = toCapital(data.plans[1].segments[n].type);
   let totalTime = data.plans[1].segments[n].times.durations.total;
  
 
@@ -538,8 +524,7 @@ const clearAltTrip = (data) => {
   altTrip.innerHTML = '';
 };
 
-
-
+// utility functions
 function isPlace (place) {
   return place.id.includes('place');
 };
@@ -561,6 +546,9 @@ destinationsForm.addEventListener('submit', e => {
 
 button.addEventListener('click', e => {
   e.preventDefault();
-  populateTrip()
-  populateAltTrip()
+  populateTrip();
+  populateAltTrip();
 });
+
+
+
