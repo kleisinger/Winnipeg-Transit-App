@@ -1,5 +1,5 @@
 # transit-app-final-assignment
-* A trip planning application using the Geocoding API of MapBox and the Trip Planning API from Winnipeg Transit.
+* A trip planning browser  application using the Geocoding API of MapBox and the Trip Planning API from Winnipeg Transit.
 * Completed solo as the final project for my Intro to Third-Pary API's SD-105 course at MITT
 
 URL: https://transit-app-1c1f71.netlify.app/
